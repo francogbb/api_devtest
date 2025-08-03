@@ -7,7 +7,7 @@ Este repositorio contiene una aplicación Django estructurada con entorno virtua
 ---
 
 ## 📁 Estructura del proyecto
-´´´
+```
     📦api_devtest
     ┣ 📂api_devtest 
     ┃ ┣ 📂apps (apps de Django)
@@ -32,4 +32,4 @@ Este repositorio contiene una aplicación Django estructurada con entorno virtua
     ┣ 📜poetry.lock
     ┣ 📜pyproject.toml
     ┗ 📜README.md
-´´´
+```
