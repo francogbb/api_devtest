@@ -1,0 +1,20 @@
+[project]
+name = "api_devtest"
+version = "0.1.0"
+description = "Proyecto de prueba para desarrollo y especialización con Django."
+authors = [
+    {name = "francogbb",email = "fgarrido.dev25@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "django (>=5.2.4,<6.0.0)",
+    "django-environ (>=0.12.0,<0.13.0)",
+    "mysqlclient (>=2.2.7,<3.0.0)",
+    "dj-database-url (>=3.0.1,<4.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
