@@ -41,10 +41,13 @@ BASE_APPS = [
 ]
 
 LOCAL_APPS = [
-    'apps.usersApp'    
+    'apps.cs2TeamsApp',    
 ]
 
-THIRD_APPS = []
+THIRD_APPS = [
+    'rest_framework',
+    'drf_yasg'    
+]
 
 INSTALLED_APPS = BASE_APPS+LOCAL_APPS+THIRD_APPS
 
