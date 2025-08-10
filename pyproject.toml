@@ -11,7 +11,11 @@ dependencies = [
     "django (>=5.2.4,<6.0.0)",
     "django-environ (>=0.12.0,<0.13.0)",
     "mysqlclient (>=2.2.7,<3.0.0)",
-    "dj-database-url (>=3.0.1,<4.0.0)"
+    "dj-database-url (>=3.0.1,<4.0.0)",
+    "djangorestframework (>=3.16.0,<4.0.0)",
+    "drf-yasg (>=1.21.10,<2.0.0)",
+    "beautifulsoup4 (>=4.13.4,<5.0.0)",
+    "seleniumbase (>=4.40.8,<5.0.0)"
 ]
 
 
