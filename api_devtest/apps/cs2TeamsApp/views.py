@@ -22,7 +22,10 @@ class PlayerViewSet(viewsets.ModelViewSet):
         options = Options() # Se crea configuración para el navegador automatizado
         options.headless = True  # Ejecutar sin abrir ventana
 
-        driver = webdriver.Firefox(options=options) # Se crea instancia del navegador con la config indicada, Selenium lo maneja
+        driver = webdriver.Remote(
+                command_executor="http://selenium:4444/wd/hub",
+                options=options
+            ) # Se crea instancia del navegador con la config indicada, Selenium lo maneja
 
         """ Abre la página a scrapear """
         driver.get(url_player) 
@@ -87,6 +90,7 @@ class PlayerViewSet(viewsets.ModelViewSet):
                     'type_player_id': type_player['id']
                 }
             )
+            print({"nickname": player.nickname, "first_name": player.first_name, "last_name": player.last_name, "age": player.age, "nationality": player.nationality, "created": created})
             return Response({
                 'nickname': player.nickname,
                 'first_name': player.first_name,
@@ -95,6 +99,8 @@ class PlayerViewSet(viewsets.ModelViewSet):
                 'nationality': player.nationality,
                 'created': created  
             }, status=201 if created else 200)
+        
+        print("Algo falló en la obtención de datos")
 
         return Response('Algo falló en la obtención de datos', status=400)
     
@@ -102,7 +108,10 @@ class PlayerViewSet(viewsets.ModelViewSet):
         options = Options()
         options.headless = True
 
-        driver = webdriver.Firefox(options=options)
+        driver = webdriver.Remote(
+            command_executor="http://selenium:4444/wd/hub",
+            options=options
+        )
         driver.get(self.url)
 
         search_input = WebDriverWait(driver, 15).until(
@@ -123,11 +132,15 @@ class PlayerViewSet(viewsets.ModelViewSet):
     def get_profile_player(self, nickNamePlayer):
         options = Options()
         options.headless = True
-        driver = webdriver.Firefox(options=options)
+        driver = webdriver.Remote(
+            command_executor="http://selenium:4444/wd/hub",
+            options=options
+        )
 
         try:
             search_url = f"https://www.hltv.org/search?query={nickNamePlayer}"
             driver.get(search_url)
+            print("url tabla jugadores", search_url)
 
             WebDriverWait(driver, 15).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, 'table.table'))
@@ -145,16 +158,19 @@ class PlayerViewSet(viewsets.ModelViewSet):
                 if header and header.text.strip() == 'Player':
                     # Esta es la tabla que queremos
                     first_link = table.select_one('td a')
+                    print("first_link:", first_link)
                     if first_link:
                         base_url = "https://www.hltv.org"
                         player_url = base_url + first_link['href']
+                        print("player_url first:", player_url)
                     break  # Ya encontramos la tabla correcta
             
-                if player_url:
-                    return player_url
-                else:
-                    print(f"No se encontró el jugador: {nickNamePlayer}")
-                    return None
+            if player_url:
+                print("player_url return:", player_url)
+                return player_url
+            else:
+                print(f"No se encontró el jugador: {nickNamePlayer}")
+                return None
 
         except Exception as e:
             print(f"Error al buscar jugador '{nickNamePlayer}'")
@@ -167,7 +183,9 @@ class PlayerViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='create-player')
     def create_player(self, request):
         nick = request.query_params.get('name')
+        print("nick:", nick)
         player_url = self.get_profile_player(nick)
+        print("player_url:", player_url)
         if player_url:
             return self.scrape(player_url)
         return Response('No se encontró el jugador', status=404)
@@ -179,7 +197,10 @@ class TypePlayerViewSet(viewsets.ModelViewSet):
     def get_type_player(self, url_player):
         options = Options()
         options.headless = True
-        driver = webdriver.Firefox(options=options)
+        driver = webdriver.Remote(
+            command_executor="http://selenium:4444/wd/hub",
+            options=options
+        )
 
         driver.get(url_player)
         WebDriverWait(driver, 15).until(
