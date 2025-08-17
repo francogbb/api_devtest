@@ -23,7 +23,7 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="API de Desarrollo",
+        title="API de Desarrollo basado en cs2",
         default_version='v1',
         description="API para desarrollo",
         terms_of_service="https://www.google.com/policies/terms/",
@@ -36,6 +36,6 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("apps.cs2TeamsApp.urls")),
+    path("api/cs2/", include("apps.cs2TeamsApp.urls")),
     path('api/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
